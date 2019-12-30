@@ -6,8 +6,7 @@
 
     <groupId>com.ggemo.va</groupId>
     <artifactId>va-script</artifactId>
-    <version>0.0.5</version>
-    <packaging>jar</packaging>
+    <version>1.0.0</version>
     <distributionManagement>
         <repository>
             <id>github</id>
