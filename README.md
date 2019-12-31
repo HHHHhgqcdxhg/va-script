@@ -2,7 +2,7 @@
 <code>!funcName:param1|param2|param3</code>  
 
 param只支持Integer和String  
-没有函数参数默认值没有重载参数不准为空, 返回值包含一个表示是否成功的boolean和一个String  
+函数名大小写不敏感, 没有函数参数默认值, 没有重载, 参数不准为空, 返回值包含一个表示是否成功的boolean和一个String  
 
 使用示例见[test/java/com/ggemo/va/vascript/VaScriptTest](https://github.com/HHHHhgqcdxhg/va-script/blob/master/src/test/java/com/ggemo/va/vascript/VaScriptTest.java)  
 
