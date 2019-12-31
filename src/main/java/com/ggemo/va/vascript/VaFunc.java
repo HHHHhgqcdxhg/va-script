@@ -7,15 +7,30 @@ public abstract class VaFunc {
 
     public abstract String getFuncName();
 
-    public abstract VaScriptResponse handle(Object[] params);
+    public abstract Class getExtraParamType();
 
-    public VaScriptResponse handle(String[] params){
+//    public abstract VaScriptResponse handle(Object[] params);
+
+    public abstract VaScriptResponse handle(Object[] params, Object extraParam);
+
+    public VaScriptResponse handle(String[] params, Object extraParam){
         Object[] objects = vertify(params);
         if (objects == null) {
             return VaScriptResponse.FAIL_PARAM_ERROR;
         }
-        return handle(objects);
-    }
+        if(!vertifyExtra(extraParam)){
+            return VaScriptResponse.FAIL_EXTRA_PARAM_ERROR;
+        }
+        return handle(objects, extraParam);
+    };
+//
+//    public VaScriptResponse handle(String[] params){
+//        Object[] objects = vertify(params);
+//        if (objects == null) {
+//            return VaScriptResponse.FAIL_PARAM_ERROR;
+//        }
+//        return handle(objects);
+//    }
 
     private static final Pattern NUMBER_REGIX = Pattern.compile("-?([1-9][0-9]*|0)(\\.[0-9]+)?");
 
@@ -44,5 +59,21 @@ public abstract class VaFunc {
             }
         }
         return objects;
+    }
+
+    public boolean vertifyExtra(Object object){
+        if (this.getExtraParamType() == null) {
+            return true;
+        }
+        System.out.println(object.getClass());
+        System.out.println(this.getExtraParamType());
+        if (object.getClass() == this.getExtraParamType()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

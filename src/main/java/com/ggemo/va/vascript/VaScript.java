@@ -14,7 +14,7 @@ public class VaScript {
 
     }
 
-    VaScriptResponse parse(String cmdStr) {
+    VaScriptResponse parse(String cmdStr, Object extraParam) {
         if (!cmdStr.startsWith("!") && !cmdStr.startsWith("！")) {
             return VaScriptResponse.FAIL_SYNTAX_ERROR_START_ERROR;
         }
@@ -41,6 +41,10 @@ public class VaScript {
             String paramStr = splitedNameParam[1];
             params = paramStr.split("\\|");
         }
-        return funcMap.get(funcName).handle(params);
+        return funcMap.get(funcName).handle(params, extraParam);
+    }
+
+    VaScriptResponse parse(String cmdStr) {
+        return parse(cmdStr, null);
     }
 }
