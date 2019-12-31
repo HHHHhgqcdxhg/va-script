@@ -1,23 +1,22 @@
 package com.ggemo.va.vascript;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Scanner;
+
 class VaScriptTest {
+    public static void main(String[] args) {
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @ToString
+        class UserNameObj {
+            long userId;
+            String userName;
+        }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    static class UserIdObj{
-        long userId;
-    }
-
-    @Test
-    void test() {
         VaFunc addFunc = new VaFunc() {
             private final TypeEnum[] TYPE_ENUMS = new TypeEnum[]{TypeEnum.NUMBER, TypeEnum.NUMBER};
 
@@ -28,12 +27,12 @@ class VaScriptTest {
 
             @Override
             public String getFuncName() {
-                return "addFunc";
+                return "add";
             }
 
             @Override
             public Class getExtraParamType() {
-                return UserIdObj.class;
+                return UserNameObj.class;
             }
 
             @Override
@@ -41,15 +40,32 @@ class VaScriptTest {
                 float a = (float) params[0];
                 float b = (float) params[1];
                 float res = a + b;
-                UserIdObj userIdObj = (UserIdObj) extraParam;
-                String resStr = userIdObj.getUserId() + ": " + res;
+                UserNameObj userNameObj = (UserNameObj) extraParam;
+                String resStr = userNameObj.toString() + ": " + res;
                 return VaScriptResponse.success(resStr);
             }
         };
 
         VaScript vaScript = new VaScript(addFunc);
 
-        VaScriptResponse res = vaScript.parse("!addFunc:1|2.5", new UserIdObj(123L));
-        System.out.println(res);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("input your name: ");
+
+        String name = sc.next();
+        UserNameObj user = new UserNameObj(1145141919810L, name);
+
+        while (true) {
+            System.out.print("input cmd (supported add, with 2 number param): ");
+            String cmd = sc.next();
+            VaCmdInfo cmdInfo = vaScript.parseInfo(cmd);
+            VaScriptResponse res;
+            if (cmdInfo.getFuncName().toLowerCase().equals("add")) {
+                res = vaScript.parse(cmdInfo, user);
+            }else{
+                res = vaScript.parse(cmdInfo, null);
+            }
+            System.out.println(res);
+        }
     }
 }

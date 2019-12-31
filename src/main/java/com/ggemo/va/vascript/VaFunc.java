@@ -65,12 +65,7 @@ public abstract class VaFunc {
         if (this.getExtraParamType() == null) {
             return true;
         }
-        System.out.println(object.getClass());
-        System.out.println(this.getExtraParamType());
-        if (object.getClass() == this.getExtraParamType()) {
-            return true;
-        }
-        return false;
+        return object.getClass() == this.getExtraParamType();
     }
 
     public static void main(String[] args) {
